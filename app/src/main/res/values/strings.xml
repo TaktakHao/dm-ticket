@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DMTickets</string>
+    <string name="ticket_assistant">抢票助手</string>
+    <string name="welcome">Welcome</string>
+    <string name="tip_1">软件只供学习使用，后续行为与本人无关"</string>
+    <string name="tip_2">使用时请保证无障碍模式一直开启</string>
+    <string name="turn_on">去开启</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="dm_package">cn.damai</string>
+    <string name="my_package">com.sankuai.movie</string>
+</resources>
