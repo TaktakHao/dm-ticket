@@ -8,6 +8,7 @@ import com.google.gson.Gson
 object SharedPreferenceRepository {
 
     private const val REPOSITORY_NAME = "DMTickets"
+    private const val TICKET_SINGER_KEY = "TICKET_SINGER_KEY"
     private const val TICKET_DATE_KEY = "TICKET_DATE_KEY"
     private const val TICKET_PRICE_KEY = "TICKET_PRICE_KEY"
     private const val TICKET_NAME_KEY = "TICKET_NAME_KEY"
@@ -18,6 +19,18 @@ object SharedPreferenceRepository {
 
     private val gson by lazy {
         Gson()
+    }
+
+    fun updateSingerDate(dateList: List<Ticket>) {
+        sharedPreferences.edit().apply {
+            putString(TICKET_SINGER_KEY, gson.toJson(dateList))
+            apply()
+        }
+    }
+
+    fun getSingerDate(): List<Ticket> {
+        val json = sharedPreferences.getString(TICKET_SINGER_KEY, "")
+        return if (json.isNullOrBlank()) emptyList() else gson.fromJson(json, Array<Ticket>::class.java).toList()
     }
 
     fun updateTicketDate(dateList: List<Ticket>) {

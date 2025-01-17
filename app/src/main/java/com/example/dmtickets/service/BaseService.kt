@@ -22,6 +22,7 @@ import com.example.dmtickets.model.NodeWrapper
 import com.example.dmtickets.model.ServiceData
 import com.example.dmtickets.utils.blankOrThis
 import com.example.dmtickets.utils.jumpAccessibilityServiceSettings
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.ref.WeakReference
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -77,6 +78,8 @@ abstract class BaseService : AccessibilityService() {
 
     abstract val enableListenApp: Boolean
 
+    var pageState = MutableStateFlow<BookingStep>(BookingStep.Init)
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onServiceConnected() {
         if (instance == null) instance = this
@@ -103,10 +106,12 @@ abstract class BaseService : AccessibilityService() {
             val packageName = event.packageName.blankOrThis()
             val eventType = event.eventType
 
+            Log.d(TAG, "onAccessibilityEvent: className: $className -> packageName: $packageName -> eventType: $eventType")
+
             if (className.isNotBlank() && packageName.isNotBlank())
                 analyzeSource (
                     EventWrapper(packageName, className, eventType),
-                    5000,
+                    50,
                     ::analyzeCallBack
                 )
         }
@@ -228,4 +233,11 @@ abstract class BaseService : AccessibilityService() {
     fun closeForeNotification() {
         foreNotification?.let { instance?.stopForeground(STOP_FOREGROUND_REMOVE) }
     }
+}
+
+sealed class BookingStep {
+    data object Init : BookingStep()
+    data object WaitingToBuy : BookingStep()
+    data object SelectingSeat : BookingStep()
+    data object Pay : BookingStep()
 }

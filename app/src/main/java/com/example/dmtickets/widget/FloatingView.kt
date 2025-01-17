@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.example.dmtickets.R
 import com.example.dmtickets.databinding.LayoutFloatViewBinding
 import com.example.dmtickets.model.ServiceData
 import com.example.dmtickets.service.BaseService
@@ -80,11 +81,13 @@ class FloatingView @JvmOverloads constructor(
 
         binding.tvGoToDm.setOnClickListener {
             try {
-                context.applicationContext.startActivity(Intent().apply {
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                    component = ComponentName("cn.damai", "cn.damai.homepage.MainActivity")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
+                context?.let {
+                    val intent = it.packageManager.getLaunchIntentForPackage(it.getString(R.string.my_package))
+                    if (intent != null) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        it.startActivity(intent)
+                    }
+                }
             } catch (e: Exception) {
                 Toast.makeText(context, "请手动打开大麦app", Toast.LENGTH_SHORT).show()
             }

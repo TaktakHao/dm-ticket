@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 
+    <queries>
+        <package android:name="cn.damai" />
+        <package android:name="com.sankuai.movie" />
+    </queries>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"

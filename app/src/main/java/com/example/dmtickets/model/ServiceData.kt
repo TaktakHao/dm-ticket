@@ -2,6 +2,8 @@ package com.example.dmtickets.model
 
 object ServiceData {
 
+    val singer: ArrayList<Ticket> = ArrayList()
+
     val allDateList: ArrayList<Ticket> = ArrayList()
 
     val allPriceList: ArrayList<Ticket> = ArrayList()
@@ -25,6 +27,7 @@ sealed class OperationType {
 }
 
 sealed class DataType {
+    data object Singer : DataType()
     data object Date : DataType()
     data object Name : DataType()
     data object Price : DataType()

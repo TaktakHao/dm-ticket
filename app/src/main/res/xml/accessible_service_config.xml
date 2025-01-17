@@ -7,6 +7,6 @@
     android:canRetrieveWindowContent="true"
     android:canRequestFilterKeyEvents="true"
     android:canRequestEnhancedWebAccessibility="true"
-    android:notificationTimeout="300"
+    android:notificationTimeout="50"
     android:packageNames="cn.damai,com.sankuai.movie"
     android:settingsActivity=".MainActivity"/>

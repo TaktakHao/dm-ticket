@@ -1,7 +1,6 @@
 package com.example.dmtickets
 
 import android.app.DatePickerDialog
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,14 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.dmtickets.databinding.FragmentTicketMessageBinding
 import com.example.dmtickets.model.DataType
 import com.example.dmtickets.model.OperationType
-import com.example.dmtickets.model.Ticket
 import com.example.dmtickets.model.ServiceData
+import com.example.dmtickets.model.Ticket
 import com.example.dmtickets.repository.SharedPreferenceRepository
 import com.example.dmtickets.view_model.MainActivityViewModel
 import com.example.dmtickets.view_model.MainViewModelFactory
 import com.example.dmtickets.widget.HomeTitleUIState
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
 
@@ -47,9 +47,18 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
         ServiceData.allPriceList.clear()
         ServiceData.allNameList.clear()
 
+        val singerList = SharedPreferenceRepository.getSingerDate()
         val dateList = SharedPreferenceRepository.getTicketDate()
         val priceList = SharedPreferenceRepository.getTicketPrice()
         val nameList = SharedPreferenceRepository.getTicketName()
+
+        if (singerList.isNotEmpty()) {
+            ServiceData.singer.addAll(singerList)
+            singerList.forEach {
+                val chipView = generateChip(it, DataType.Date)
+                binding.chipSinger.addView(chipView)
+            }
+        }
 
         if (dateList.isNotEmpty()) {
             ServiceData.allDateList.addAll(dateList)
@@ -82,12 +91,16 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
 
         binding.btnOpenDamai.setOnClickListener {
             try {
-                startActivity(Intent().apply {
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                    component = ComponentName("cn.damai", "cn.damai.homepage.MainActivity")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
+
+                context?.let {
+                    val intent = it.packageManager.getLaunchIntentForPackage(it.getString(R.string.my_package))
+                    if (intent != null) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        it.startActivity(intent)
+                    }
+                }
             } catch (e: Exception) {
+                e.printStackTrace()
                 Toast.makeText(context, "请手动打开大麦app", Toast.LENGTH_SHORT).show()
             }
         }
@@ -115,6 +128,16 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
             datePickerDialog?.show()
         }
 
+        binding.singerTextField.setEndIconOnClickListener {
+            val name = binding.singerTextField.editText?.text?.toString()
+                ?: return@setEndIconOnClickListener
+            binding.singerTextField.editText?.text?.clear()
+
+            val ticket = Ticket(name)
+            val chipView = generateChip(ticket, DataType.Singer)
+            binding.chipSinger.addView(chipView)
+            parentViewModel?.updateTicketData(ticket, OperationType.Add, DataType.Singer)
+        }
 
         binding.priceTextField.setEndIconOnClickListener {
             val price = binding.priceTextField.editText?.text?.toString()?.toInt()
@@ -133,7 +156,7 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
             binding.nameTextField.editText?.text?.clear()
 
             val ticket = Ticket(name)
-            val chipView = generateChip(ticket, DataType.Price)
+            val chipView = generateChip(ticket, DataType.Name)
             binding.chipName.addView(chipView)
             parentViewModel?.updateTicketData(ticket, OperationType.Add, DataType.Name)
         }
@@ -162,16 +185,20 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
                     }
                     .setPositiveButton("删除") { dialog, which ->
                         when (type) {
+                            DataType.Singer -> {
+                                binding.chipSinger.removeView(chipView)
+                            }
+
                             DataType.Date -> {
                                 binding.chipDate.removeView(chipView)
                             }
+
                             DataType.Price -> {
                                 binding.chipPrice.removeView(chipView)
-
                             }
+
                             DataType.Name -> {
                                 binding.chipName.removeView(chipView)
-
                             }
                         }
                         parentViewModel?.updateTicketData(ticket, OperationType.Delete, type)

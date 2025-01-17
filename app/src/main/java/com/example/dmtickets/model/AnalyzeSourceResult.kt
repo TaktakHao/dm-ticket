@@ -108,6 +108,14 @@ fun AnalyzeSourceResult.findEditableNode(): NodeWrapper? {
     return null
 }
 
+fun AnalyzeSourceResult.findAllTextViewNode(): AnalyzeSourceResult {
+    val newList = nodes.filter { it.nodeInfo?.className == "android.widget.TextView" }
+    val arrayList = ArrayList<NodeWrapper>().apply {
+        addAll(newList)
+    }
+    return AnalyzeSourceResult(arrayList)
+}
+
 /**
  * 查找所有可点击的结点
  * */

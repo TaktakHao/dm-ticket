@@ -33,6 +33,10 @@ class MainActivityViewModel : ViewModel() {
         when (type) {
             OperationType.Add -> {
                 when (dataType) {
+                    DataType.Singer -> {
+                        ServiceData.singer.add(data)
+                        SharedPreferenceRepository.updateSingerDate(ServiceData.singer)
+                    }
                     DataType.Date -> {
                         ServiceData.allDateList.add(data)
                         SharedPreferenceRepository.updateTicketDate(ServiceData.allDateList)
@@ -52,6 +56,11 @@ class MainActivityViewModel : ViewModel() {
 
             OperationType.Delete -> {
                 when (dataType) {
+                    DataType.Singer -> {
+                        ServiceData.singer.remove(data)
+                        SharedPreferenceRepository.updateSingerDate(ServiceData.singer)
+                    }
+
                     DataType.Date -> {
                         ServiceData.allDateList.remove(data)
                         SharedPreferenceRepository.updateTicketDate(ServiceData.allDateList)
@@ -73,6 +82,10 @@ class MainActivityViewModel : ViewModel() {
                 data.isChecked = !data.isChecked
 
                 when (dataType) {
+                    DataType.Singer -> {
+                        SharedPreferenceRepository.updateTicketDate(ServiceData.singer)
+                    }
+
                     DataType.Date -> {
                         SharedPreferenceRepository.updateTicketDate(ServiceData.allDateList)
                     }

@@ -45,6 +45,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/singer_text_field"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:hint="请输入歌手名字"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@drawable/icon_edit"
+            app:endIconMode="custom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="0dp"
+            app:chipSpacingVertical="-10dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/price_text_field"

@@ -204,3 +204,49 @@ fun NodeWrapper?.input(content: String) {
         }
     }
 }
+
+/**
+ * 点击屏幕坐标点
+ */
+fun performClickPoint(x: Float, y: Float) {
+    BaseService.require.run {
+        val builder = GestureDescription.Builder().apply {
+            val path = Path()
+            path.moveTo(x, y)
+            path.lineTo(x, y)
+            addStroke(GestureDescription.StrokeDescription(path, 0, 1))
+        }
+        dispatchGesture(builder.build(), object : AccessibilityService.GestureResultCallback() {
+            override fun onCompleted(gestureDescription: GestureDescription?) {
+                super.onCompleted(gestureDescription)
+            }
+
+            override fun onCancelled(gestureDescription: GestureDescription?) {
+                super.onCancelled(gestureDescription)
+            }
+        }, null)
+    }
+}
+
+/**
+ * 滑动屏幕
+ */
+fun performScroll() {
+    BaseService.require.run {
+        val builder = GestureDescription.Builder().apply {
+            val path = Path()
+            path.moveTo(500f, 800f)
+            path.lineTo(500f, 400f)
+            addStroke(GestureDescription.StrokeDescription(path, 0, 200))
+        }
+        dispatchGesture(builder.build(), object : AccessibilityService.GestureResultCallback() {
+            override fun onCompleted(gestureDescription: GestureDescription?) {
+                super.onCompleted(gestureDescription)
+            }
+
+            override fun onCancelled(gestureDescription: GestureDescription?) {
+                super.onCancelled(gestureDescription)
+            }
+        }, null)
+    }
+}
