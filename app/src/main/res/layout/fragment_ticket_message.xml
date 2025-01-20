@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:text="打开大麦" />
+            android:text="打开猫眼" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_add_date"

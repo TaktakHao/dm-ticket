@@ -71,7 +71,7 @@
                 android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打开大麦"
+                android:text="打开猫眼"
                 android:gravity="center_vertical"
                 android:textSize="12sp"
                 app:layout_constraintTop_toTopOf="parent"

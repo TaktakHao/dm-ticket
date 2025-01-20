@@ -57,7 +57,7 @@ class MainActivityViewModel : ViewModel() {
             OperationType.Delete -> {
                 when (dataType) {
                     DataType.Singer -> {
-                        ServiceData.singer.remove(data)
+                        ServiceData.singer.removeIf { it.data == data.data }
                         SharedPreferenceRepository.updateSingerDate(ServiceData.singer)
                     }
 

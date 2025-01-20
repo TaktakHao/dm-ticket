@@ -22,44 +22,47 @@ class FloatingView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
-    private val binding by lazy {
-        LayoutFloatViewBinding.inflate(
-            LayoutInflater.from(context),
-            this,
-            true
-        )
-    }
+    private var binding: LayoutFloatViewBinding? = null
 
 
     private var mMoveListener: ((moveX: Float, moveY: Float) -> Unit)? = null
 
     init {
+        this.initView()
+    }
+
+    private fun initView() {
+        binding = LayoutFloatViewBinding.inflate(
+            LayoutInflater.from(context),
+            this,
+            true
+        )
 
         initClickListener()
 
         checkPermission()
 
         if (ServiceData.isServiceEnable) {
-            binding.tvSwitch.text = "点击停止"
+            binding?.tvSwitch?.text = "点击停止"
         } else {
-            binding.tvSwitch.text = "点击开始"
+            binding?.tvSwitch?.text = "点击开始"
         }
     }
 
 
     private fun initClickListener() {
-        binding.tvSwitch.setOnClickListener {
+        binding?.tvSwitch?.setOnClickListener {
 
             if (ServiceData.isServiceEnable) {
                 ServiceData.isServiceEnable = false
-                binding.tvSwitch.text = "点击开始"
+                binding?.tvSwitch?.text = "点击开始"
             } else {
                 ServiceData.isServiceEnable = true
                 ServiceData.isFirst = false
-                binding.tvSwitch.text = "点击停止"
+                binding?.tvSwitch?.text = "点击停止"
             }
         }
-        binding.tvGoToApp.setOnClickListener {
+        binding?.tvGoToApp?.setOnClickListener {
             context.applicationContext.startActivity(Intent(Intent.ACTION_VIEW).apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
                 addFlags(FLAG_ACTIVITY_NEW_TASK)
@@ -67,7 +70,7 @@ class FloatingView @JvmOverloads constructor(
                     ComponentName(context.packageName, "${context.packageName}.MainActivity")
             })
         }
-        binding.btnReqPer.setOnClickListener {
+        binding?.btnReqPer?.setOnClickListener {
             context.applicationContext.startActivity(Intent(Intent.ACTION_VIEW).apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
                 addFlags(FLAG_ACTIVITY_NEW_TASK)
@@ -79,7 +82,7 @@ class FloatingView @JvmOverloads constructor(
             }
         }
 
-        binding.tvGoToDm.setOnClickListener {
+        binding?.tvGoToDm?.setOnClickListener {
             try {
                 context?.let {
                     val intent = it.packageManager.getLaunchIntentForPackage(it.getString(R.string.my_package))
@@ -89,7 +92,7 @@ class FloatingView @JvmOverloads constructor(
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "请手动打开大麦app", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "请手动打开猫眼app", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -97,13 +100,13 @@ class FloatingView @JvmOverloads constructor(
     fun checkPermission() {
 
         if (!BaseService.isServiceEnable) {
-            binding.tvTips.visibility = View.VISIBLE
-            binding.btnReqPer.visibility = View.VISIBLE
-            binding.tvSwitch.visibility = View.GONE
+            binding?.tvTips?.visibility = View.VISIBLE
+            binding?.btnReqPer?.visibility = View.VISIBLE
+            binding?.tvSwitch?.visibility = View.GONE
         } else {
-            binding.tvTips.visibility = View.GONE
-            binding.btnReqPer.visibility = View.GONE
-            binding.tvSwitch.visibility = View.VISIBLE
+            binding?.tvTips?.visibility = View.GONE
+            binding?.btnReqPer?.visibility = View.GONE
+            binding?.tvSwitch?.visibility = View.VISIBLE
         }
     }
 
@@ -119,7 +122,7 @@ class FloatingView @JvmOverloads constructor(
 
         val createDate: String = formatter.format(curDate) //格式转换
 
-        binding.tvTips.text = createDate
+        binding?.tvTips?.text = createDate
     }
 
     fun setOnMoveListener(listener: (moveX: Float, moveY: Float) -> Unit) {

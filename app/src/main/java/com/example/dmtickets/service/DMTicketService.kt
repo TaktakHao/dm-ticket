@@ -31,14 +31,16 @@ class DMTicketService : BaseService() {
             pageState.value = BookingStep.Init
         }
 
+        Log.d(TAG, "analyzeCallBack: pageState = ${pageState.value}")
+
         when (pageState.value) {
             BookingStep.Init -> {
                 result.findNodeByText("我的")?.click(gestureClick = false)
 
-                result.findNodeByText("我的预约抢票").click(gestureClick = false)
+                result.findNodeByText("我的预约抢票")?.click(gestureClick = false)
 
                 val singer = ServiceData.singer.firstOrNull { it.isChecked } ?: return
-                result.findNodeByText(singer.data).click(gestureClick = false)
+                result.findNodeByText(singer.data)?.click(gestureClick = false)
             }
             BookingStep.WaitingToBuy -> {
                 if (result.findNodeByText("已预约") != null) return
@@ -48,37 +50,37 @@ class DMTicketService : BaseService() {
                     it.click(gestureClick = false)
                 }
 
-                result.findNodeByText("立即预订")?.click(gestureClick = true)
+                result.findNodeByText("立即预订")?.click(gestureClick = false)
             }
             BookingStep.SelectingSeat -> {
-                val selectedDate = ServiceData.allDateList.filter { it.isChecked }
-                val selectedPrice = ServiceData.allPriceList.filter { it.isChecked }
+//                val selectedDate = ServiceData.allDateList.filter { it.isChecked }
+//                val selectedPrice = ServiceData.allPriceList.filter { it.isChecked }
+//
+//                selectedDate.forEach {
+//                    val node = result.findNodeByText(it.data) ?: return@forEach
+//                    if (node.text?.contains("缺货") == true) return@forEach
+//                    node.click(gestureClick = false)
+//                    return
+//                }
+//
+//                selectedPrice.forEach {
+//                    val node = result.findNodeByText(it.data) ?: return@forEach
+//                    if (node.text?.contains("缺货") == true) return@forEach
+//                    node.click(gestureClick = false)
+//                    return
+//                }
 
-                selectedDate.forEach {
-                    val node = result.findNodeByText(it.data) ?: return@forEach
-                    if (node.text?.contains("缺货") == true) return@forEach
-                    node.click(gestureClick = false)
-                    return
-                }
-
-                selectedPrice.forEach {
-                    val node = result.findNodeByText(it.data) ?: return@forEach
-                    if (node.text?.contains("缺货") == true) return@forEach
-                    node.click(gestureClick = false)
-                    return
-                }
-
-                result.findNodeByText("确认").click(gestureClick = false)
+                result.findNodeByText("确认")?.click(gestureClick = false)
             }
 
             BookingStep.Pay -> {
-                val name = ServiceData.allNameList.filter { it.isChecked }
-                val textviewResult = result.findAllTextViewNode()
-                name.forEach {
-                    textviewResult.findNodeByText(it.data)?.click(gestureClick = false)
-                }
+//                val name = ServiceData.allNameList.filter { it.isChecked }
+//                val textviewResult = result.findAllTextViewNode()
+//                name.forEach {
+//                    textviewResult.findNodeByText(it.data)?.click(gestureClick = false)
+//                }
 
-                result.findNodeByText("立即支付").click(gestureClick = false)
+                result.findNodeByText("立即支付")?.click(gestureClick = false)
             }
         }
 

@@ -55,7 +55,7 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
         if (singerList.isNotEmpty()) {
             ServiceData.singer.addAll(singerList)
             singerList.forEach {
-                val chipView = generateChip(it, DataType.Date)
+                val chipView = generateChip(it, DataType.Singer)
                 binding.chipSinger.addView(chipView)
             }
         }
@@ -101,7 +101,7 @@ class TicketMessageFragment : BaseFragment<FragmentTicketMessageBinding>() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(context, "请手动打开大麦app", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "请手动打开猫眼app", Toast.LENGTH_SHORT).show()
             }
         }
 

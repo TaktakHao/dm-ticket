@@ -30,7 +30,7 @@ import java.util.concurrent.Executors
 abstract class BaseService : AccessibilityService() {
 
     companion object {
-        const val TAG = "test"
+        const val TAG = "analyzeCallBack"
         @Volatile
         var instance: BaseService? = null
         val isServiceEnable get() = instance != null
@@ -111,7 +111,7 @@ abstract class BaseService : AccessibilityService() {
             if (className.isNotBlank() && packageName.isNotBlank())
                 analyzeSource (
                     EventWrapper(packageName, className, eventType),
-                    50,
+                    100,
                     ::analyzeCallBack
                 )
         }
